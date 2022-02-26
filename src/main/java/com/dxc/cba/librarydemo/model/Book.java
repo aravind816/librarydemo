@@ -31,7 +31,7 @@ public class Book {
 
     private Date createtime;
 
-    private Date updatetime;
+    private Date updatetime=new Date(System.currentTimeMillis());
 
 
     public Book() {
@@ -52,6 +52,11 @@ public class Book {
     public String toString() {
         return "Book [author=" + author + ", createtime=" + createtime + ", id=" + id + ", isbn=" + isbn
                 + ", published=" + published + ", title=" + title + ", updatetime=" + updatetime + "]";
+    }
+
+
+    public void setId(Long id2) {
+        this.id=id2;
     }
     
 }
