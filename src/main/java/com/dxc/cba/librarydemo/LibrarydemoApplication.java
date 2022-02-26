@@ -7,9 +7,7 @@ import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 @SpringBootApplication
 @OpenAPIDefinition
 public class LibrarydemoApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(LibrarydemoApplication.class, args);
 	}
-
 }

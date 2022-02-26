@@ -42,6 +42,9 @@ public class BookController {
         return bookService.getAllBooks();
     }
 
+
+
+
     @Operation(summary = "This method will giva all the records filtered based on Author, ISBN number, Title, Published date")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Fetched all matching records from library", content = {
@@ -50,10 +53,13 @@ public class BookController {
     })
     @GetMapping("/filterbooks/{isbn}{author}{title}{publishedon}")
     @ResponseStatus(HttpStatus.OK)
-    public List<Book> getBooks(@PathVariable("author") final String author, @PathVariable("title") final String title,
-            @PathVariable("isbn") final Long isbn, @PathVariable("publishedon") final Date published) {
+    public List<Book> getBooks(@PathVariable("isbn") final Long isbn,@PathVariable("author") final String author, @PathVariable("title") final String title,
+             @PathVariable("publishedon") final String published) {
         return bookService.getFilteredBooks(author, title, isbn);
     }
+
+
+
 
     @Operation(summary = "This method will add a new book record with Author, ISBN number, Title & Published date")
     @ApiResponses(value = {
@@ -66,6 +72,8 @@ public class BookController {
         bookService.addBook(bookRecord);
         return "Book Added";
     }
+
+    
 
     @Operation(summary = "This method will update the book record in the library")
     @ApiResponses(value = {
@@ -80,6 +88,12 @@ public class BookController {
         bookService.addBook(bookRecord);
         return "Book updated";
     }
+
+
+
+
+
+
 
     @Operation(summary = "This method will delete an existing book with the ID supplied")
     @ApiResponses(value = {
