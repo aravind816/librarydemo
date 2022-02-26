@@ -83,12 +83,23 @@ public class BookController {
         }
 
         @Operation(summary = "This method will delete an existing book with the ID supplied")
-        @DeleteMapping("/delete-book/{id}")
+        @DeleteMapping("/delete-book")
         @ResponseStatus(HttpStatus.OK)
         public String deleteBook(
                         @RequestParam("id") Long id) {
                 logger.info("####Deleting the book >>> " + id);
                 bookService.deleteById(id);
+                return "Book deleted";
+        }
+
+
+        @Operation(summary = "This method will send a message to kafka topic")
+        @DeleteMapping("/sendmessage")
+        @ResponseStatus(HttpStatus.OK)
+        public String sendMessage(
+                        @RequestParam("message") String message) {
+                logger.info("####Deleting the book >>> " + message);
+                bookService.sendMessage(message);
                 return "Book deleted";
         }
 
