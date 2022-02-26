@@ -6,6 +6,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,7 +19,7 @@ import lombok.Setter;
 @Entity
 public class Book {
 
-
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Id
     @GeneratedValue
     private  Long  id;
@@ -29,13 +32,13 @@ public class Book {
 
     private Date published;
 
-    private Date createtime;
+    @JsonIgnore
+    private Date createtime=new Date(System.currentTimeMillis());
 
+    @JsonIgnore
     private Date updatetime=new Date(System.currentTimeMillis());
 
 
-    public Book() {
-    }
 
 
     public Book(Long isbn, String title, String author, Date published, Date createtime, Date updatetime) {
