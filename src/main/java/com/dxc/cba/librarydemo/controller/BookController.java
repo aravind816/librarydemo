@@ -90,7 +90,7 @@ public class BookController {
                         @RequestParam("id") Long id) {
                 logger.info("####Deleting the book >>> " + id);
                 bookService.deleteById(id);
-                return "Book deleted Successfully";
+                return "Book is deleted Successfully";
         }
 
 
@@ -99,7 +99,7 @@ public class BookController {
         @ResponseStatus(HttpStatus.OK)
         public @ResponseBody String sendMessage(
                         @RequestParam("message") String message) {
-                logger.info("####Deleting the book >>> " + message);
+                logger.info("####Posting a message to kafka >>> " + message);
                 bookService.sendMessage(message);
                 return "Your message is posted to Kafka Queue";
         }
