@@ -90,7 +90,7 @@ public class BookController {
                         @RequestParam("id") Long id) {
                 logger.info("####Deleting the book >>> " + id);
                 bookService.deleteById(id);
-                return "Book deleted Successfully";
+                return "Book is deleted Successfully";
         }
 
 
