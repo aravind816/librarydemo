@@ -95,13 +95,13 @@ public class BookController {
 
 
         @Operation(summary = "This method will send a message to kafka topic")
-        @DeleteMapping("/sendmessage")
+        @PutMapping("/sendmessage")
         @ResponseStatus(HttpStatus.OK)
         public @ResponseBody String sendMessage(
                         @RequestParam("message") String message) {
-                logger.info("####Deleting the book >>> " + message);
+                logger.info("####Posting a message to kafka >>> " + message);
                 bookService.sendMessage(message);
-                return "Book deleted";
+                return "Your message is posted to Kafk topic";
         }
 
 }
