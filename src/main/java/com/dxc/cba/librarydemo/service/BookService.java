@@ -47,19 +47,19 @@ public class BookService {
         return bookRepository.findAll(Sort.by("title"));
     }
 
-    public void addBook(Book bookRecord) {
-        bookRepository.save(bookRecord);
+    public Book addBook(Book bookRecord) {
         sendMessage("Book Record added: >> "+bookRecord.toString());
+        return bookRepository.save(bookRecord);
     }
 
-    public void updateBook(Book bookRecord) {
-        bookRepository.save(bookRecord);
+    public Book updateBook(Book bookRecord) {
         sendMessage("Book Record updated: >> "+bookRecord.toString());
+        return bookRepository.save(bookRecord);
     }
 
     public void deleteById(Long id) {
-        bookRepository.deleteById(id);
         sendMessage("Book Record deleted: >> "+id.toString());
+        bookRepository.deleteById(id);
     }
 
     public List<Book> getFilteredBooks(String author, String title, Long isbn, Date published) {
