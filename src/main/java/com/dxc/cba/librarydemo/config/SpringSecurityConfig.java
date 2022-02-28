@@ -23,28 +23,17 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     // Secure the endpoins with HTTP Basic authentication
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                //HTTP Basic authentication
-                .httpBasic()
+        //HTTP Basic authentication
+        http.httpBasic()
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/api/**").hasRole("USER")
-                .antMatchers(HttpMethod.PUT, "/api/**").hasRole("USER")
-                .antMatchers(HttpMethod.POST, "/api/update-book/*").hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/api/delete-book").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/api/book").hasRole("USER")
+                .antMatchers(HttpMethod.POST, "/api/book").hasRole("USER")
+                .antMatchers(HttpMethod.PUT, "/api/book").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/api/book").hasRole("ADMIN")
                 .and()
                 .csrf().disable()
                 .formLogin().disable();
     }
 
-    /*@Bean
-    public UserDetailsService userDetailsService() {
-        //ok for demo
-        User.UserBuilder users = User.withDefaultPasswordEncoder();
-
-        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        manager.createUser(users.username("user").password("password").roles("USER").build());
-        manager.createUser(users.username("admin").password("password").roles("USER", "ADMIN").build());
-        return manager;
-    }*/
 }

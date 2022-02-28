@@ -34,11 +34,9 @@ public class Book {
     @GeneratedValue
     private  Long  id;
 
-
-    @Column(length = 13)
     @NotNull(message = "ISBN number cannot be empty")
     @NumberFormat(style = Style.NUMBER)
-    @ISBNValidation
+    @ISBNValidation(message = "ISBN Must be a 13 digit numeric value")
     // @Digits(integer = 13, fraction = 0, message = "ISBN Number cannot be more than 13 digits")
     private Long isbn;
 
