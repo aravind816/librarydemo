@@ -101,7 +101,9 @@ public class BookController {
                         @RequestParam("message") String message) {
                 logger.info("####Posting a message to kafka >>> " + message);
                 bookService.sendMessage(message);
-                return "Your message is posted to Kafka Queue";
+                return "Your message is posted to Kafk topic";
         }
 
 }
+
+
