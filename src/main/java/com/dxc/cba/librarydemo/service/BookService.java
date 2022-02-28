@@ -65,9 +65,10 @@ public class BookService {
     public List<Book> getFilteredBooks(String author, String title, Long isbn, Date published) {
         sendMessage("Book Record searched: >> "+"#### Author >> " + author + " #### title >> " + title + " #### isbn >> " + isbn
             + " #### published >> " + published);
-
-        if (isbn != null && author != null && title != null) {
-            
+        if(isbn == null && author == null && title == null){
+            return getAllBooks();
+        }
+        else if (isbn != null && author != null && title != null) {
             return bookRepository.findByAuthorContainingOrTitleContainingOrIsbnOrPublished(author, title, isbn,
                     published);
         } else {

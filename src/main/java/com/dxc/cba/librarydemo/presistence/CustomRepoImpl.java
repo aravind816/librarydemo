@@ -41,7 +41,7 @@ public class CustomRepoImpl implements CustomBookRepo {
         if (published != null) {
             predicates.add(cb.equal(book.get("published"), published));
         }
-        Predicate predicateForGrade = cb.or(predicates.toArray(new Predicate[0]));
+        Predicate predicateForGrade = cb.and(predicates.toArray(new Predicate[0]));
         cq.where(predicateForGrade);
 
         return entityManager.createQuery(cq).getResultList();
