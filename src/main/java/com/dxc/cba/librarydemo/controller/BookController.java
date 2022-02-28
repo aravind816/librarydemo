@@ -3,6 +3,8 @@ package com.dxc.cba.librarydemo.controller;
 import java.sql.Date;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import com.dxc.cba.librarydemo.model.Book;
 import com.dxc.cba.librarydemo.service.BookService;
 
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,7 +31,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 @RestController
 @RequestMapping("/api")
 public class BookController {
-        Logger logger = LoggerFactory.logger(BookController.class);;
+        Logger logger = LoggerFactory.logger(BookController.class);
 
         @Autowired
         private BookService bookService;
@@ -40,19 +43,18 @@ public class BookController {
         })
         @PostMapping(value = "/add-book")
         @ResponseStatus(HttpStatus.OK)
-        public String addUser(@RequestBody Book bookRecord) {
+        public @ResponseBody Book addBook(@Valid @RequestBody Book bookRecord) {
                 logger.info(bookRecord.toString());
                 logger.info("####Adding a new book...");
                 bookRecord.setCreatetime(new Date(System.currentTimeMillis()));
                 bookRecord.setUpdatetime(new Date(System.currentTimeMillis()));
-                bookService.addBook(bookRecord);
-                return "Book Added";
+                return bookService.addBook(bookRecord);
         }
 
         @Operation(summary = "This method will give all the records stored in the library")
         @GetMapping("/getbooks")
         @ResponseStatus(HttpStatus.OK)
-        public List<Book> getAllBooks() {
+        public @ResponseBody List<Book> getAllBooks() {
                 logger.info("####Retriving all books...");
                 return bookService.getAllBooks();
         }
@@ -60,7 +62,7 @@ public class BookController {
         @Operation(summary = "This method will giva all the records filtered based on Author, ISBN number, Title, Published date")
         @GetMapping("/filterbooks")
         @ResponseStatus(HttpStatus.OK)
-        public List<Book> getBooks(@RequestParam(required = false) final Long isbn,
+        public @ResponseBody List<Book> getFilteredBooks(@RequestParam(required = false) final Long isbn,
                         @RequestParam(required = false) final String author,
                         @RequestParam(required = false) final String title,
                         @RequestParam(defaultValue = "9999-12-31") final Date published) {
@@ -73,23 +75,35 @@ public class BookController {
         @Operation(summary = "This method will update the book record in the library")
         @PutMapping("/update-book/{id}")
         @ResponseStatus(HttpStatus.OK)
-        public String updateBook(
-                        @RequestParam("id") final Long id, @RequestBody final Book bookRecord) {
+        public @ResponseBody Book updateBook(
+                        @RequestParam("id") final Long id,@Valid @RequestBody final Book bookRecord) {
                 logger.info("####Updating book >>> " + id);
                 bookRecord.setId(id);
                 bookRecord.setUpdatetime(new Date(System.currentTimeMillis()));
-                bookService.addBook(bookRecord);
-                return "Book updated";
+                return bookService.updateBook(bookRecord);
         }
 
         @Operation(summary = "This method will delete an existing book with the ID supplied")
-        @DeleteMapping("/delete-book/{id}")
+        @DeleteMapping("/delete-book")
         @ResponseStatus(HttpStatus.OK)
-        public String deleteBook(
+        public @ResponseBody String deleteBook(
                         @RequestParam("id") Long id) {
                 logger.info("####Deleting the book >>> " + id);
                 bookService.deleteById(id);
-                return "Book deleted";
+                return "Book is deleted Successfully";
+        }
+
+
+        @Operation(summary = "This method will send a message to kafka topic")
+        @PutMapping("/sendmessage")
+        @ResponseStatus(HttpStatus.OK)
+        public @ResponseBody String sendMessage(
+                        @RequestParam("message") String message) {
+                logger.info("####Posting a message to kafka >>> " + message);
+                bookService.sendMessage(message);
+                return "Your message is posted to Kafk topic";
         }
 
 }
+
+
