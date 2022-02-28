@@ -29,7 +29,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 @RestController
-@RequestMapping("/api/book")
+@RequestMapping("/api")
 public class BookController {
         Logger logger = LoggerFactory.logger(BookController.class);
 
@@ -41,7 +41,7 @@ public class BookController {
                         @ApiResponse(responseCode = "200", description = "Added a new record to the library", content = @Content),
                         @ApiResponse(responseCode = "404", description = "Service not available", content = @Content)
         })
-        @PostMapping(value = "/")
+        @PostMapping(value = "/book")
         @ResponseStatus(HttpStatus.OK)
         public @ResponseBody Book addBook(@Valid @RequestBody Book bookRecord) {
                 logger.info(bookRecord.toString());
@@ -60,13 +60,13 @@ public class BookController {
                 return bookService.getAllBooks();
         }
 
-        @Operation(summary = "This method will giva all the records or filtered records based on Author, ISBN number, Title, Published date")
-        @GetMapping("/")
+        @Operation(summary = "This method will return all the records or filtered records based on Author, ISBN number, Title, Published date")
+        @GetMapping("/book")
         @ResponseStatus(HttpStatus.OK)
         public @ResponseBody List<Book> getFilteredBooks(@RequestParam(required = false) final Long isbn,
                         @RequestParam(required = false) final String author,
                         @RequestParam(required = false) final String title,
-                        @RequestParam(defaultValue = "9999-12-31") final Date published_date) {
+                        @RequestParam(required = false) final Date published_date) {
                 logger.info("####Searching books by keywords...");
                 logger.info("#### Author >> " + author + " #### title >> " + title + " #### isbn >> " + isbn
                                 + " #### published_date >> " + published_date);
@@ -74,7 +74,7 @@ public class BookController {
         }
 
         @Operation(summary = "This method will update the book record in the library")
-        @PutMapping("/")
+        @PutMapping("/book")
         @ResponseStatus(HttpStatus.OK)
         public @ResponseBody Book updateBook(
                         @RequestParam("id") final Long id,@Valid @RequestBody final Book bookRecord) {
@@ -85,7 +85,7 @@ public class BookController {
         }
 
         @Operation(summary = "This method will delete an existing book with the ID supplied")
-        @DeleteMapping("/")
+        @DeleteMapping("/book")
         @ResponseStatus(HttpStatus.OK)
         public @ResponseBody String deleteBook(
                         @RequestParam("id") Long id) {
@@ -94,6 +94,16 @@ public class BookController {
                 return "Book is deleted Successfully";
         }
 
+
+        @Operation(summary = "This method will send a message to kafka topic")
+        @PostMapping("/message")
+        @ResponseStatus(HttpStatus.OK)
+        public @ResponseBody String sendMessage(
+                        @RequestParam("message") String message) {
+                logger.info("####Posting a message to kafka >>> " + message);
+                bookService.sendMessage(message);
+                return "Your message is posted to Kafk topic";
+        }
 
 }
 
