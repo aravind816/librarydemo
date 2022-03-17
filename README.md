@@ -3,7 +3,12 @@ Created a demo app for CBA.
 
 It exposes the below rest API's
 
-<img width="1486" alt="Screen Shot 2022-02-28 at 1 27 49 am" src="https://user-images.githubusercontent.com/19218386/155886968-e320678c-c429-4eee-be55-9599b1c15db9.png">
+<img width="1507" alt="Screen Shot 2022-03-17 at 8 55 13 pm" src="https://user-images.githubusercontent.com/19218386/158784113-f698a792-fdb4-4c92-bbdc-439efd8d8468.png">
+
+
+Swagger URL:
+
+http://localhost:8080/swagger-ui/index.html
 
 
 <h1> App Feature Description</h1>
